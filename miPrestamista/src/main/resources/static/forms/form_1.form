@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "text": "# Registro de usuarios",
+      "type": "text",
+      "id": "Field_142xtfg"
+    },
+    {
+      "label": "Nombre",
+      "type": "textfield",
+      "id": "Field_169a63r",
+      "key": "nombre"
+    },
+    {
+      "label": "Primer Apellido ",
+      "type": "textfield",
+      "id": "Field_12bzzqk",
+      "key": "nombre2"
+    },
+    {
+      "label": "Segundo Apellido",
+      "type": "textfield",
+      "id": "Field_0sbllld",
+      "key": "apellido1"
+    },
+    {
+      "label": "Salario actual",
+      "type": "textfield",
+      "id": "Field_149uuum",
+      "key": "salario"
+    },
+    {
+      "values": [
+        {
+          "label": "Independiente",
+          "value": "independiente"
+        },
+        {
+          "label": "Planilla e ingresos mensuales",
+          "value": "planilla"
+        }
+      ],
+      "label": "Tipo de empleado",
+      "type": "radio",
+      "id": "Field_0vy2qm2",
+      "key": "tipoEmpleado"
+    }
+  ],
+  "type": "default",
+  "id": "form1"
+}

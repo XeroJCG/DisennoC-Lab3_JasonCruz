@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "text": "# Prenda sobre propiedad\n",
+      "type": "text",
+      "id": "Field_0ghrco3"
+    },
+    {
+      "values": [
+        {
+          "label": "Si",
+          "value": "si"
+        },
+        {
+          "label": "No",
+          "value": "no"
+        }
+      ],
+      "label": "Desea poner una prenda sobre una propiedad?",
+      "type": "radio",
+      "id": "Field_03q0jqv",
+      "key": "prenda"
+    }
+  ],
+  "type": "default",
+  "id": "form5"
+}

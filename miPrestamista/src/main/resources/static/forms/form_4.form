@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "text": "# Contrato",
+      "type": "text",
+      "id": "Field_1bhxzr6"
+    },
+    {
+      "text": "Por este medio se le solicita su firma para finalizar con el proceso del prestamo, por favor proceda a firmar el contrato a continuación",
+      "type": "text",
+      "id": "Field_0rs8wdt"
+    },
+    {
+      "label": "Firmar Contrato",
+      "type": "textfield",
+      "id": "Field_0h6lpgp",
+      "key": "firma"
+    }
+  ],
+  "type": "default",
+  "id": "form4"
+}

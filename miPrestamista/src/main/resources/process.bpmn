@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.12.0">
+  <bpmn:process id="miPrestamista-process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1fp17al</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1fp17al" sourceRef="StartEvent_1" targetRef="registroUauario" />
+    <bpmn:sequenceFlow id="SequenceFlow_16gzt2m" sourceRef="registroUauario" targetRef="Gateway_1pix7if" />
+    <bpmn:userTask id="registroUauario" name="Registro de Usuario" camunda:formKey="camunda-forms:/forms/form_1.form" camunda:candidateUsers="demo">
+      <bpmn:incoming>SequenceFlow_1fp17al</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_16gzt2m</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1pix7if">
+      <bpmn:incoming>SequenceFlow_16gzt2m</bpmn:incoming>
+      <bpmn:outgoing>Flow_0bo3x3h</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1hdk88p</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0bo3x3h" name="Empleado planilla" sourceRef="Gateway_1pix7if" targetRef="solicitarMonto">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{tipoEmpleado== "planilla"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1hdk88p" name="Empleado independiente" sourceRef="Gateway_1pix7if" targetRef="aporteEstadosContables">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{tipoEmpleado == "independiente"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0ss6com" sourceRef="solicitarMonto" targetRef="calcularMonto" />
+    <bpmn:exclusiveGateway id="Gateway_1k0afss">
+      <bpmn:incoming>Flow_1jwbr4l</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ndsjhn</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1s736l3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1jwbr4l" sourceRef="aporteEstadosContables" targetRef="Gateway_1k0afss" />
+    <bpmn:sequenceFlow id="Flow_1ndsjhn" name="No" sourceRef="Gateway_1k0afss" targetRef="aporteEstadosContables">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{aporte == "no"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1s736l3" name="Si" sourceRef="Gateway_1k0afss" targetRef="solicitarMonto">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{aporte == "si"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="Gateway_0a38xt0">
+      <bpmn:incoming>Flow_1i0wlh3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0tnv5ro</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0jcy0pp</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1i0wlh3" sourceRef="calcularMonto" targetRef="Gateway_0a38xt0" />
+    <bpmn:sequenceFlow id="Flow_0tnv5ro" name="Monto mayor al 80% de ingresos" sourceRef="Gateway_0a38xt0" targetRef="ponerPrenda">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{estado == "declinado"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0jcy0pp" name="Monto menor al 80% de ingresos" sourceRef="Gateway_0a38xt0" targetRef="firmaContrato">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{estado == "aprovado"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="Gateway_00d4f83">
+      <bpmn:incoming>Flow_1hqatzm</bpmn:incoming>
+      <bpmn:outgoing>Flow_0atpn5c</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1vqh8a1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1hqatzm" sourceRef="ponerPrenda" targetRef="Gateway_00d4f83" />
+    <bpmn:sequenceFlow id="Flow_0atpn5c" name="Poner prenda propiedad" sourceRef="Gateway_00d4f83" targetRef="firmaContrato">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{prenda == "si"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1vqh8a1" name="No poner prenda propiedad" sourceRef="Gateway_00d4f83" targetRef="solicitudDenegada">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{prenda == "no"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_19mpgoy">
+      <bpmn:incoming>Flow_01v2djm</bpmn:incoming>
+      <bpmn:incoming>Flow_0p6ubt4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_01v2djm" sourceRef="solicitudDenegada" targetRef="Event_19mpgoy" />
+    <bpmn:userTask id="aporteEstadosContables" name="Aporte de estados contables auditarios" camunda:formKey="camunda-forms:/forms/form_3.form">
+      <bpmn:incoming>Flow_1hdk88p</bpmn:incoming>
+      <bpmn:incoming>Flow_1ndsjhn</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jwbr4l</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="solicitarMonto" name="Solicitar Monto" camunda:formKey="camunda-forms:/forms/form_2.form">
+      <bpmn:incoming>Flow_0bo3x3h</bpmn:incoming>
+      <bpmn:incoming>Flow_1s736l3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ss6com</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="calcularMonto" name="Calcular monto solicitado contra ingreso" camunda:delegateExpression="#{CalcularMonto}">
+      <bpmn:incoming>Flow_0ss6com</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i0wlh3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="firmaContrato" name="Firma Contrato" camunda:formKey="camunda-forms:/forms/form_4.form">
+      <bpmn:incoming>Flow_0jcy0pp</bpmn:incoming>
+      <bpmn:incoming>Flow_0atpn5c</bpmn:incoming>
+      <bpmn:outgoing>Flow_0p6ubt4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="ponerPrenda" name="Poner Prenda Sobre propiedad" camunda:formKey="camunda-forms:/forms/form_5.form">
+      <bpmn:incoming>Flow_0tnv5ro</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hqatzm</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="solicitudDenegada" name="Solicitud Denegada" camunda:formKey="camunda-forms:/forms/form_6.form">
+      <bpmn:incoming>Flow_1vqh8a1</bpmn:incoming>
+      <bpmn:outgoing>Flow_01v2djm</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0p6ubt4" sourceRef="firmaContrato" targetRef="Event_19mpgoy" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="miPrestamista-process">
+      <bpmndi:BPMNEdge id="Flow_1hqatzm_di" bpmnElement="Flow_1hqatzm">
+        <di:waypoint x="1160" y="540" />
+        <di:waypoint x="1255" y="540" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jcy0pp_di" bpmnElement="Flow_0jcy0pp">
+        <di:waypoint x="975" y="450" />
+        <di:waypoint x="1000" y="450" />
+        <di:waypoint x="1000" y="370" />
+        <di:waypoint x="1230" y="370" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="907.9999999999999" y="374" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tnv5ro_di" bpmnElement="Flow_0tnv5ro">
+        <di:waypoint x="975" y="450" />
+        <di:waypoint x="1000" y="450" />
+        <di:waypoint x="1000" y="540" />
+        <di:waypoint x="1060" y="540" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="970" y="556" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i0wlh3_di" bpmnElement="Flow_1i0wlh3">
+        <di:waypoint x="800" y="450" />
+        <di:waypoint x="925" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1s736l3_di" bpmnElement="Flow_1s736l3">
+        <di:waypoint x="730" y="265" />
+        <di:waypoint x="730" y="340" />
+        <di:waypoint x="550" y="340" />
+        <di:waypoint x="550" y="410" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="635" y="322" width="11" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ndsjhn_di" bpmnElement="Flow_1ndsjhn">
+        <di:waypoint x="730" y="215" />
+        <di:waypoint x="730" y="80" />
+        <di:waypoint x="540" y="80" />
+        <di:waypoint x="540" y="200" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="628" y="62" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jwbr4l_di" bpmnElement="Flow_1jwbr4l">
+        <di:waypoint x="590" y="240" />
+        <di:waypoint x="705" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ss6com_di" bpmnElement="Flow_0ss6com">
+        <di:waypoint x="600" y="450" />
+        <di:waypoint x="700" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hdk88p_di" bpmnElement="Flow_1hdk88p">
+        <di:waypoint x="430" y="322" />
+        <di:waypoint x="430" y="240" />
+        <di:waypoint x="490" y="240" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="345" y="246" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bo3x3h_di" bpmnElement="Flow_0bo3x3h">
+        <di:waypoint x="430" y="372" />
+        <di:waypoint x="430" y="450" />
+        <di:waypoint x="500" y="450" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="386" y="463" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_16gzt2m_di" bpmnElement="SequenceFlow_16gzt2m">
+        <di:waypoint x="370" y="347" />
+        <di:waypoint x="405" y="347" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1fp17al_di" bpmnElement="SequenceFlow_1fp17al">
+        <di:waypoint x="215" y="347" />
+        <di:waypoint x="270" y="347" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0atpn5c_di" bpmnElement="Flow_0atpn5c">
+        <di:waypoint x="1280" y="515" />
+        <di:waypoint x="1280" y="410" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1281" y="456" width="67" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vqh8a1_di" bpmnElement="Flow_1vqh8a1">
+        <di:waypoint x="1305" y="540" />
+        <di:waypoint x="1460" y="540" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1341" y="556" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01v2djm_di" bpmnElement="Flow_01v2djm">
+        <di:waypoint x="1560" y="540" />
+        <di:waypoint x="1682" y="540" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0p6ubt4_di" bpmnElement="Flow_0p6ubt4">
+        <di:waypoint x="1330" y="370" />
+        <di:waypoint x="1700" y="370" />
+        <di:waypoint x="1700" y="522" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="329" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_08mft2c_di" bpmnElement="registroUauario">
+        <dc:Bounds x="270" y="307" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1pix7if_di" bpmnElement="Gateway_1pix7if" isMarkerVisible="true">
+        <dc:Bounds x="405" y="322" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1k0afss_di" bpmnElement="Gateway_1k0afss" isMarkerVisible="true">
+        <dc:Bounds x="705" y="215" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0a38xt0_di" bpmnElement="Gateway_0a38xt0" isMarkerVisible="true">
+        <dc:Bounds x="925" y="425" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01bb154_di" bpmnElement="aporteEstadosContables">
+        <dc:Bounds x="490" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0p14d34_di" bpmnElement="solicitarMonto">
+        <dc:Bounds x="500" y="410" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19mcjvb_di" bpmnElement="calcularMonto">
+        <dc:Bounds x="700" y="410" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_19mpgoy_di" bpmnElement="Event_19mpgoy">
+        <dc:Bounds x="1682" y="522" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_00d4f83_di" bpmnElement="Gateway_00d4f83" isMarkerVisible="true">
+        <dc:Bounds x="1255" y="515" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ixzf09_di" bpmnElement="solicitudDenegada">
+        <dc:Bounds x="1460" y="500" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1pxn0wq_di" bpmnElement="ponerPrenda">
+        <dc:Bounds x="1060" y="500" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0oq5zvy_di" bpmnElement="firmaContrato">
+        <dc:Bounds x="1230" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

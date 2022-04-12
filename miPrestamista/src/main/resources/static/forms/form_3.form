@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "text": "# Aportó los estados contables auditados?",
+      "type": "text",
+      "id": "Field_1wkka9t"
+    },
+    {
+      "values": [
+        {
+          "label": "Si",
+          "value": "si"
+        },
+        {
+          "label": "No",
+          "value": "no"
+        }
+      ],
+      "type": "radio",
+      "id": "Field_00o0in8",
+      "key": "aporte"
+    }
+  ],
+  "type": "default",
+  "id": "form3"
+}
