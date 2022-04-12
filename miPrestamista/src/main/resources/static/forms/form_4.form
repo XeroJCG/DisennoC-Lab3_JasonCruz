@@ -2,12 +2,12 @@
   "schemaVersion": 2,
   "components": [
     {
-      "text": "# Contrato",
+      "text": "# Su solicitud ha sido aprobada",
       "type": "text",
       "id": "Field_1bhxzr6"
     },
     {
-      "text": "Por este medio se le solicita su firma para finalizar con el proceso del prestamo, por favor proceda a firmar el contrato a continuación",
+      "text": "Favor digitar su firma para culminar con el conjtrado del préstamo",
       "type": "text",
       "id": "Field_0rs8wdt"
     },

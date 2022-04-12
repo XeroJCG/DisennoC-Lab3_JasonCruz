@@ -44,7 +44,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{estado == "declinado"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0jcy0pp" name="Monto menor al 80% de ingresos" sourceRef="Gateway_0a38xt0" targetRef="firmaContrato">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{estado == "aprovado"}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{estado == "aprobado"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="Gateway_00d4f83">
       <bpmn:incoming>Flow_1hqatzm</bpmn:incoming>
@@ -94,6 +94,29 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="miPrestamista-process">
+      <bpmndi:BPMNEdge id="Flow_0p6ubt4_di" bpmnElement="Flow_0p6ubt4">
+        <di:waypoint x="1330" y="370" />
+        <di:waypoint x="1700" y="370" />
+        <di:waypoint x="1700" y="522" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01v2djm_di" bpmnElement="Flow_01v2djm">
+        <di:waypoint x="1560" y="540" />
+        <di:waypoint x="1682" y="540" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vqh8a1_di" bpmnElement="Flow_1vqh8a1">
+        <di:waypoint x="1305" y="540" />
+        <di:waypoint x="1460" y="540" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1341" y="556" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0atpn5c_di" bpmnElement="Flow_0atpn5c">
+        <di:waypoint x="1280" y="515" />
+        <di:waypoint x="1280" y="410" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1281" y="456" width="67" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1hqatzm_di" bpmnElement="Flow_1hqatzm">
         <di:waypoint x="1160" y="540" />
         <di:waypoint x="1255" y="540" />
@@ -170,29 +193,6 @@
         <di:waypoint x="215" y="347" />
         <di:waypoint x="270" y="347" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0atpn5c_di" bpmnElement="Flow_0atpn5c">
-        <di:waypoint x="1280" y="515" />
-        <di:waypoint x="1280" y="410" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1281" y="456" width="67" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1vqh8a1_di" bpmnElement="Flow_1vqh8a1">
-        <di:waypoint x="1305" y="540" />
-        <di:waypoint x="1460" y="540" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1341" y="556" width="83" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_01v2djm_di" bpmnElement="Flow_01v2djm">
-        <di:waypoint x="1560" y="540" />
-        <di:waypoint x="1682" y="540" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0p6ubt4_di" bpmnElement="Flow_0p6ubt4">
-        <di:waypoint x="1330" y="370" />
-        <di:waypoint x="1700" y="370" />
-        <di:waypoint x="1700" y="522" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="329" width="36" height="36" />
       </bpmndi:BPMNShape>
@@ -208,6 +208,12 @@
       <bpmndi:BPMNShape id="Gateway_0a38xt0_di" bpmnElement="Gateway_0a38xt0" isMarkerVisible="true">
         <dc:Bounds x="925" y="425" width="50" height="50" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_00d4f83_di" bpmnElement="Gateway_00d4f83" isMarkerVisible="true">
+        <dc:Bounds x="1255" y="515" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_19mpgoy_di" bpmnElement="Event_19mpgoy">
+        <dc:Bounds x="1682" y="522" width="36" height="36" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_01bb154_di" bpmnElement="aporteEstadosContables">
         <dc:Bounds x="490" y="200" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -217,20 +223,14 @@
       <bpmndi:BPMNShape id="Activity_19mcjvb_di" bpmnElement="calcularMonto">
         <dc:Bounds x="700" y="410" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_19mpgoy_di" bpmnElement="Event_19mpgoy">
-        <dc:Bounds x="1682" y="522" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_00d4f83_di" bpmnElement="Gateway_00d4f83" isMarkerVisible="true">
-        <dc:Bounds x="1255" y="515" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0ixzf09_di" bpmnElement="solicitudDenegada">
-        <dc:Bounds x="1460" y="500" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0oq5zvy_di" bpmnElement="firmaContrato">
+        <dc:Bounds x="1230" y="330" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1pxn0wq_di" bpmnElement="ponerPrenda">
         <dc:Bounds x="1060" y="500" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0oq5zvy_di" bpmnElement="firmaContrato">
-        <dc:Bounds x="1230" y="330" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0ixzf09_di" bpmnElement="solicitudDenegada">
+        <dc:Bounds x="1460" y="500" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
