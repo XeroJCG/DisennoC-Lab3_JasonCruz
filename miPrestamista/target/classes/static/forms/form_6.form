@@ -2,12 +2,7 @@
   "schemaVersion": 2,
   "components": [
     {
-      "text": "# Estado Solicitud\n",
-      "type": "text",
-      "id": "Field_1tmwo3l"
-    },
-    {
-      "text": "Su solicitud ha sido denegada",
+      "text": "# Su solicitud ha sido denegada",
       "type": "text",
       "id": "Field_1tlyham"
     }
